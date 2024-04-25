@@ -1,8 +1,16 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/data/models/note.dart';
+
 import 'package:flutter_note_app/pages/edit_page.dart';
 
 class DetailPage extends StatefulWidget {
-  const DetailPage({super.key});
+  const DetailPage({
+    Key? key,
+    required this.note,
+  }) : super(key: key);
+
+  final Note note;
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -23,11 +31,11 @@ class _DetailPageState extends State<DetailPage> {
         padding: const EdgeInsets.all(16),
         children: [
           Text(
-            'Title',
+            widget.note.title,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           Text(
-            'Content',
+            widget.note.content,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(
@@ -39,7 +47,11 @@ class _DetailPageState extends State<DetailPage> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EditPage()),
+            MaterialPageRoute(builder: (context) {
+              return EditPage(
+                note: widget.note,
+              );
+            }),
           );
         },
         child: const Icon(Icons.edit),

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Note {
-  final String? id;
+  final int? id;
   final String title;
   final String content;
   final DateTime createAt;
@@ -23,15 +23,14 @@ class Note {
 
   factory Note.fromMap(Map<String, dynamic> map) {
     return Note(
-      id: map['id'] != null ? map['id'] as String : null,
-      title: map['title'] as String,
-      content: map['content'] as String,
+      id: map['id']?.toInt(),
+      title: map['title'] ?? '',
+      content: map['content'] ?? '',
       createAt: DateTime.fromMillisecondsSinceEpoch(int.parse(map['createAt'])),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Note.fromJson(String source) =>
-      Note.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Note.fromJson(String source) => Note.fromMap(json.decode(source));
 }

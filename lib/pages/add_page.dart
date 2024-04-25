@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/data/datasource/local_datasource.dart';
+import 'package:flutter_note_app/data/models/note.dart';
 
 class AddNote extends StatefulWidget {
   const AddNote({super.key});
@@ -63,7 +65,23 @@ class _AddNoteState extends State<AddNote> {
             ),
             ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {}
+                if (_formKey.currentState!.validate()) {
+                  Note note = Note(
+                      title: titleController.text,
+                      content: contentController.text,
+                      createAt: DateTime.now());
+
+                  LocalDataSource().insertNote(note);
+                  titleController.clear();
+                  contentController.clear();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Note berhasil ditambahkan'),
+                      backgroundColor: Color(0xff124076),
+                    ),
+                  );
+                  Navigator.pop(context);
+                }
               },
               child: const Text('Save'),
             )
